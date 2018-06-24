@@ -1,3 +1,3 @@
-Data is from ml-latest-small which is from the Grouplens website:
+Data used to make the model is from the MovieLens Latest Datasets:
 
 https://grouplens.org/datasets/movielens/
