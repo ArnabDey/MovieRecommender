@@ -44,16 +44,20 @@ X = X.replace(r'^\s*$', np.nan, regex=True)
 X = X.fillna(X.mean())
 
 
-for i in range(1, 20):
-     kmeans = KMeans(n_clusters = i, init = 'k-means++', max_iter = 300, random_state = 42)
+for i in range(1, 31):
+     kmeans = KMeans(n_clusters = i, init = 'k-means++', max_iter = 300, n_init = 30, random_state = 0)
      kmeans.fit(X)
      wccss.append(kmeans.inertia_)
 print(len(wccss))
-plt.plot(range(1, 20), wcss)
+plt.plot(range(1, 31), wccss)
 plt.title('The Elbow Method')
 plt.xlabel('Number of Clusters')
 plt.ylabel('WCCS')
 plt.show()
 
+# KMeans Model
+kmeans = KMeans(n_clusters = 15, init = 'k-means++', max_iter = 300, n_init = 15, random_state = 0)
+y_means = kmeans.fit_predict(X)
 
+# Predictions can be made using this model
 
