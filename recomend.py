@@ -30,22 +30,29 @@ combinedData['genres'] = combinedData['genres'].str.split("|")
 # Use One-Hot-Encoding for the genres of the movie
 combinedData2 = combinedData.drop('genres', 1).join(combinedData.genres.str.join('|').str.get_dummies())
 
+# Generate new csv file after pre-processing the data
 combinedData2.to_csv('mergedata.csv', index = False)
 
+
+combinedData2=combinedData2.fillna(combinedData2.mean())
+
 # Determine number of clusters for kmenas
-# from sklearn.cluster import KMeans
-# wccs = []
-# for i in range(1, 11):
-#     kmeans = KMeans(n_clusters = i, init = 'k-means++', max_iter = 300, n_init = 10, random_state = 0)
-#     kmeans.fit(x)
-#     wccs.append(kmeans.interia_)
-# plt.plot(range(1, 11))
-# plt.title('The Elbow Method')
-# plt.xlabel('Number of Clusters')
-# plt.ylabel('WCCS')
-# plt.show()
+from sklearn.cluster import KMeans
+wccss = []
+X = pd.concat([combinedData2.iloc[:,2:3], combinedData2.iloc[:,6:26]], axis = 1)
+X = X.replace(r'^\s*$', np.nan, regex=True)
+X = X.fillna(X.mean())
 
 
+for i in range(1, 11):
+     kmeans = KMeans(n_clusters = i, init = 'k-means++', max_iter = 300, n_init = 10, random_state = 0)
+     kmeans.fit(X)
+     wccss.append(kmeans.inertia_)
+plt.plot(range(1, 11), wcss)
+plt.title('The Elbow Method')
+plt.xlabel('Number of Clusters')
+plt.ylabel('WCCS')
+plt.show()
 
 
 
